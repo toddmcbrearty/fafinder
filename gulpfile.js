@@ -2,7 +2,8 @@
 
 require("babel-polyfill")
 const gulp = require('gulp')
-
+const git = require('gulp-git')
+const open = require('gulp-open')
 const del = require('del')
 const es = require('event-stream')
 const path = require('path')
@@ -12,15 +13,15 @@ const source = require('vinyl-source-stream')
 const buffer = require('vinyl-buffer')
 const $ = require('gulp-load-plugins')()
 const sass = require('gulp-sass')
-var browserSync = require('browser-sync').create()
+const browserSync = require('browser-sync').create()
 
 const DIST = 'app'
 const ASSETS = 'assets'
 const JSASSETS = ASSETS + '/js'
 const CSSASSETS = ASSETS + '/css'
-const BLADE = 'resources/views'
 const JSDIST = DIST + '/js'
 const CSSDIST = DIST + '/css'
+const STUBS = 'stubs'
 
 const dist = function (dist, subpath) {
     return !subpath ? dist : path.join(dist, subpath)
@@ -75,7 +76,11 @@ gulp.task('sass', function () {
 });
 
 gulp.task('popup', function() {
-    return gulp.src(path.join)
+    return gulp.src([
+        path.join(ASSETS, "/index.html"),
+        path.join(STUBS, "**", "*")
+    ])
+        .pipe(gulp.dest(DIST))
 })
 
 gulp.task('browser-sync', function() {
@@ -86,22 +91,22 @@ gulp.task('browser-sync', function() {
     });
 });
 
-gulp.task('build', ['clean', 'browserify', 'sass'])
+gulp.task('build', [
+    'clean',
+    'browserify',
+    'sass',
+    'popup'
+])
 
 
 gulp.task('watch', ['build', 'browser-sync'], () => {
     gulp.watch([path.join(JSASSETS, '**', '*.js'), path.join(JSASSETS, '*.js'),
         path.join(CSSASSETS, '**', '*.scss'), path.join(CSSASSETS, '*.scss'),
-        path.join(ASSETS+"index.html")],
-        ['build', 'browser-sync']
+        path.join(ASSETS,"index.html")],
+        ['build']
     )
 })
 
 gulp.task('default', [
     'build'
 ])
-
-
-function __pj() {
-    return path.join(argument)
-}
