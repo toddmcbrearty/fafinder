@@ -15,6 +15,7 @@
     "tests"
   ],
   "dependencies": {
-    "_icons": "https://raw.githubusercontent.com/FortAwesome/Font-Awesome/master/scss/_icons.scss"
+    "_icons": "https://raw.githubusercontent.com/FortAwesome/Font-Awesome/master/scss/_icons.scss",
+    "furtive": "^2.2.3"
   }
 }

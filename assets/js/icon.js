@@ -4,13 +4,11 @@ let icons = ["glass", "music", "search", "envelope-o", "heart", "star", "star-o"
 const input_box = document.querySelector("#input-box")
 const template = document.querySelector("#icon-suggestion-tmpl")
 
-document.addEventListener('DOMContentLoaded', function () {
-    console.log('loaded')
-    input_box.addEventListener('keyup', function () {
-        buildIcons(this.value)
+document.addEventListener('DOMContentLoaded', () => {
+    input_box.addEventListener('input', e => {
+        buildIcons(e.srcElement.value)
     });
 });
-
 
 let buildIcons = suggestions => {
     const suggestions_ele = document.querySelector("#suggestions")
@@ -22,11 +20,14 @@ let buildIcons = suggestions => {
         let class_name = 'fa-' + result.name
 
         _tmpTemplate.querySelector('i').classList.add(class_name)
-        _tmpTemplate.querySelector('span').innerText = class_name
+        _tmpTemplate.querySelector('li').dataset.name = class_name
         bindClipboard(_tmpTemplate)
 
         suggestions_ele.appendChild(_tmpTemplate)
+    }
 
+    if(results == '') {
+        suggestions_ele.innerHTML = "<li>Ain't found shit</li>"
     }
 }
 
@@ -48,23 +49,22 @@ let findFuzzy = function (term) {
 let bindClipboard = element => {
 
     element.querySelector('li').addEventListener('click', function() {
+        window.getSelection().removeAllRanges()
         let range = document.createRange()
         let icon = this.querySelector('.icon-name')
         range.selectNode(icon)
-        window.getSelection().removeAllRanges()
         window.getSelection().addRange(range)
 
+
+        let iconName = document.querySelector('#status').getAttribute('data-name')
         try {
-            var successful = document.execCommand('copy');
-            var msg = successful ? 'successful' : 'unsuccessful';
-            console.log(icon.innerText)
-            console.log('Copy class name command was ' + msg);
-            document.querySelector('#status').innerText = icon.innerText+' copied.';
+            document.execCommand('copy')
+            document.querySelector('#status').innerText = iconName+' copied.'
         } catch(err) {
-            console.log('Oops, unable to copy');
-            document.querySelector('#status').innerText = icon.innerText+' did not copy. wtf?';
+            document.querySelector('#status').innerText = iconName+' did not copy. wtf?'
         }
+
+        window.getSelection().removeAllRanges()
     })
 
-    window.getSelection().removeAllRanges()
 }

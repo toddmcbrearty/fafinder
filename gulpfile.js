@@ -22,6 +22,7 @@ const CSSASSETS = ASSETS + '/css'
 const JSDIST = DIST + '/js'
 const CSSDIST = DIST + '/css'
 const STUBS = 'stubs'
+const BOWER = 'bower_components'
 
 const dist = function (dist, subpath) {
     return !subpath ? dist : path.join(dist, subpath)
@@ -75,15 +76,18 @@ gulp.task('sass', function () {
         .pipe(gulp.dest(CSSDIST));
 });
 
-gulp.task('popup', function() {
-    return gulp.src([
-        path.join(ASSETS, "/index.html"),
-        path.join(STUBS, "**", "*")
-    ])
+gulp.task('popup', function () {
+    gulp.src([
+            path.join(ASSETS, "/index.html"),
+            path.join(STUBS, "**", "*")
+        ])
         .pipe(gulp.dest(DIST))
+
+    gulp.src([path.join(BOWER, 'furtive', 'css', 'furtive.min.css')])
+        .pipe(gulp.dest(CSSDIST))
 })
 
-gulp.task('browser-sync', function() {
+gulp.task('browser-sync', function () {
     browserSync.init({
         server: {
             baseDir: "./app"
@@ -101,8 +105,8 @@ gulp.task('build', [
 
 gulp.task('watch', ['build', 'browser-sync'], () => {
     gulp.watch([path.join(JSASSETS, '**', '*.js'), path.join(JSASSETS, '*.js'),
-        path.join(CSSASSETS, '**', '*.scss'), path.join(CSSASSETS, '*.scss'),
-        path.join(ASSETS,"index.html")],
+            path.join(CSSASSETS, '**', '*.scss'), path.join(CSSASSETS, '*.scss'),
+            path.join(ASSETS, "index.html")],
         ['build']
     )
 })

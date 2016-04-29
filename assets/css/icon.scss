@@ -1,3 +1,38 @@
-.icon-cell {
-    background: red
+body {
+    font-family: "Segoe UI", "Lucida Grande", Tahoma, sans-serif;
+    font-size: 100%;
+}
+#status {
+    /* avoid an excessively wide status text */
+    white-space: pre;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    max-width: 400px;
+}
+
+#icon-box {
+    font-size: 1.4em
+}
+#suggestions {
+    width: 300px;
+    height: 300px;
+}
+#suggestions li {
+    float: left;
+    list-style: none;
+    padding: 10px;
+    border: 1px solid #ccc;
+    text-align: center;
+    width: 25%;
+    height: 40px;
+    cursor: pointer;
+    margin: 3px;
+    border-radius: 3px;
+}
+.suggestion {
+    font-size: 2.0rem;
+    color: blue
+}
+.icon-name {
+    font-size: 1.0rem;
 }

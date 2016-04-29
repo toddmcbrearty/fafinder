@@ -2,6 +2,7 @@
   "manifest_version": 2,
 
   "name": "Font Awesome Finder",
+  "short_name": "fa-finder",
   "description": "Helps find those hard to find but beautiful font awesome icons",
   "version": "1.0",
 
